@@ -6,11 +6,16 @@ import { useQuery } from "@tanstack/react-query";
 import { API } from "../utils/makeRequest";
 
 import moment from "moment";
+import { useEffect } from "react";
 
 export default function SinglePost() {
   const { id } = useParams();
 
-  const { data: post, isLoading } = useQuery({
+  const {
+    data: post,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["singlePost"],
     queryFn: async () => {
       try {
@@ -26,6 +31,14 @@ export default function SinglePost() {
       }
     },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [id]);
+
+  useEffect(() => {
+    window.scrollTo({ behavior: "smooth", top: 0, left: 0 });
+  }, []);
 
   // const { data: user } = useQuery({ queryKey: ["authUser"] });
 
